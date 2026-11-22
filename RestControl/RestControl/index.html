@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#14234F">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="description" content="RestControl - gerenciamento de restaurante">
+  <title>RestControl | Gestão do restaurante</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#" aria-label="RestControl início">
+      <span class="brand-mark" aria-hidden="true">r</span>
+      <span class="brand-copy"><strong>RestControl</strong></span>
+    </a>
+    <div class="sidebar-label">Atendimento</div>
+    <nav class="main-nav" aria-label="Menu principal">
+      <button class="nav-link active" data-page="dashboard"><span class="nav-icon">▦</span>Dashboard</button>
+      <button class="nav-link" data-page="mesas"><span class="nav-icon">▤</span>Mesas<span class="nav-count" id="navMesas" title="Mesas ocupadas"></span></button>
+      <button class="nav-link" data-page="reservas"><span class="nav-icon">◷</span>Reservas<span class="nav-count" id="navReservas" title="Reservas agendadas para hoje"></span></button>
+      <button class="nav-link" data-page="cardapio"><span class="nav-icon">☷</span>Cardápio</button>
+      <button class="nav-link" data-page="pedidos"><span class="nav-icon">▣</span>Pedidos<span class="nav-count alert-count" id="navPedidos" title="Pedidos em andamento"></span></button>
+      <button class="nav-link" data-page="cozinha"><span class="nav-icon">♨</span>Cozinha<span class="nav-count" id="navCozinha" title="Pedidos aguardando preparo"></span></button>
+    </nav>
+    <div class="sidebar-label management-label">Gestão</div>
+    <nav class="main-nav" aria-label="Gerenciamento">
+      <button class="nav-link" data-page="estoque"><span class="nav-icon">▧</span>Estoque<span class="nav-count alert-count" id="navEstoque" title="Itens com estoque baixo ou crítico"></span></button>
+      <button class="nav-link" data-page="financeiro"><span class="nav-icon">◫</span>Financeiro</button>
+      <button class="nav-link" data-page="relatorios"><span class="nav-icon">▥</span>Relatórios</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="help-card"><span class="help-icon" aria-hidden="true">✦</span><strong>Dúvidas?</strong><button class="help-button" id="helpButton">Abrir o guia</button></div>
+      <div class="sidebar-user"><div class="avatar">AD</div><div class="user-details"><strong>Administrador</strong><small>Gerente</small></div><button class="user-menu" id="userMenuButton" aria-label="Menu do usuário">•••</button></div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-left"><button class="mobile-menu" id="mobileMenu" aria-label="Abrir menu">☰</button><span class="mobile-brand"><span class="brand-mark" aria-hidden="true">r</span><strong>RestControl</strong></span><div class="breadcrumb">RestControl <span>/</span> <strong id="breadcrumbCurrent">Dashboard</strong></div><span class="date-label" id="todayLabel"></span></div>
+      <div class="topbar-actions"><button class="icon-button" id="themeButton" aria-label="Ativar modo escuro" title="Modo claro/escuro (T)">☾</button><button class="icon-button" id="bellButton" aria-label="Notificações"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><i id="bellDot"></i></button><div class="topbar-divider"></div><div class="top-user"><div class="avatar small-avatar">AD</div><div><strong>Administrador</strong><small>Gerente</small></div></div></div>
+    </header>
+
+    <section class="page-content">
+      <section class="page-view active" id="page-dashboard"></section>
+      <section class="page-view" id="page-mesas"></section>
+      <section class="page-view" id="page-reservas"></section>
+      <section class="page-view" id="page-cardapio"></section>
+      <section class="page-view" id="page-pedidos"></section>
+      <section class="page-view" id="page-cozinha"></section>
+      <section class="page-view" id="page-estoque"></section>
+      <section class="page-view" id="page-financeiro"></section>
+      <section class="page-view" id="page-relatorios"></section>
+
+      <footer class="footer"><span>© 2026 RestControl</span></footer>
+    </section>
+  </main>
+  <nav class="bottom-nav" id="bottomNav" aria-label="Navegação principal"></nav>
+</div>
+<button class="fab" id="fabPedido" aria-label="Novo pedido" title="Novo pedido (N)">＋</button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div id="printArea" aria-hidden="true"></div>
+<!-- Ordem importa: utilidades → dados → núcleo → páginas → inicialização -->
+<script src="js/utils.js"></script>
+<script src="js/data.js"></script>
+<script src="js/core.js"></script>
+<script src="js/print.js"></script>
+<script src="js/pages/dashboard.js"></script>
+<script src="js/pages/conta.js"></script>
+<script src="js/pages/mesas.js"></script>
+<script src="js/pages/reservas.js"></script>
+<script src="js/pages/cardapio.js"></script>
+<script src="js/pages/pedidos.js"></script>
+<script src="js/pages/cozinha.js"></script>
+<script src="js/pages/estoque.js"></script>
+<script src="js/pages/financeiro.js"></script>
+<script src="js/pages/relatorios.js"></script>
+<script src="js/mobile.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
