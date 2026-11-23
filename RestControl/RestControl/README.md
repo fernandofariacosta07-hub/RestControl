@@ -61,7 +61,7 @@ As permissões ficam no objeto `PERM` em `js/core.js`.
 
 ## Tecnologias
 
-- HTML5, CSS3 e JavaScript puro, sem frameworks nem bibliotecas externas.
+- HTML, CSS e JavaScript puro, sem frameworks nem bibliotecas externas.
 - Fontes *Bricolage Grotesque* e *Figtree*, incluídas na pasta `fonts/` (SIL Open Font License).
 
 ## Estrutura do código
