@@ -1,11 +1,3 @@
-/* =====================================================================
-   RestControl — identidade visual "Azulejo"
-   Louça clara, azul-cobalto de azulejo, azul-noite no menu, mostarda
-   para destaques e tomate só para alertas. Títulos em Bricolage
-   Grotesque; textos em Figtree.
-   ===================================================================== */
-
-/* ---------- Fontes (arquivos locais: funcionam sem internet) ---------- */
 @font-face{font-family:"Bricolage";font-style:normal;font-display:swap;font-weight:200 800;font-stretch:75% 100%;
   src:url(../fonts/bricolage-grotesque-latin-standard-normal.woff2) format("woff2-variations");
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -15,7 +7,6 @@
 @font-face{font-family:"Figtree";font-style:normal;font-display:swap;font-weight:300 900;src:url(../fonts/figtree-latin-wght-normal.woff2) format("woff2-variations");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:"Figtree";font-style:normal;font-display:swap;font-weight:300 900;src:url(../fonts/figtree-latin-ext-wght-normal.woff2) format("woff2-variations");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 
-/* ---------- Tokens ---------- */
 :root{
   --bg:#F2F4F7; --surface:#FFFFFF; --surface-2:#F7F8FB; --sunken:#EBEEF4;
   --ink:#1B2440; --ink-2:#3A4562; --muted:#646D88; --faint:#959DB3;
@@ -33,7 +24,6 @@
   --display:"Bricolage","Segoe UI",system-ui,sans-serif;
   --body:"Figtree","Segoe UI",system-ui,sans-serif;
   --sidebar-width:252px;
-  /* mantém compatibilidade com o código antigo */
   --green-950:var(--night); --green-900:var(--cobalt-hover); --green-800:var(--cobalt); --green-700:var(--cobalt); --green-100:var(--cobalt-50);
   --gold:var(--mustard); --radius:var(--r-lg)
 }
@@ -53,7 +43,6 @@ html.dark{
   --shadow-pop:0 22px 60px -20px rgba(0,0,0,.8)
 }
 
-/* ---------- Base ---------- */
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
@@ -69,10 +58,8 @@ small{font-size:12px}
 .eyebrow{display:none}
 .app-shell{min-height:100vh}
 
-/* ---------- Menu lateral ---------- */
 .sidebar{width:var(--sidebar-width);position:fixed;inset:0 auto 0 0;background:var(--night);color:#fff;padding:22px 14px 16px;display:flex;flex-direction:column;z-index:20;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#ffffff22 transparent}
 .brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:#fff;padding:0 8px 26px}
-/* Marca minimalista: quadrado mostarda com um "r" minúsculo */
 .brand-mark{width:34px;height:34px;flex:none;border-radius:10px;background:var(--mustard);color:#14234F;display:grid;place-items:center;
   font-family:var(--display);font-size:24px;font-weight:800;font-stretch:85%;line-height:1;padding:0 0 4px 2px}
 .brand-copy{display:flex;flex-direction:column;gap:1px}
@@ -104,7 +91,6 @@ small{font-size:12px}
 .user-menu{margin-left:auto;border:0;background:none;color:var(--night-ink);padding:6px 8px;border-radius:var(--r-sm);letter-spacing:1px}
 .user-menu:hover{background:#ffffff14;color:#fff}
 
-/* ---------- Topo ---------- */
 .main-content{margin-left:var(--sidebar-width);min-height:100vh}
 .topbar{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid var(--line-2)}
 .topbar-left,.topbar-actions{display:flex;align-items:center}
@@ -123,7 +109,6 @@ small{font-size:12px}
 .small-avatar{width:34px;height:34px}
 .mobile-menu{display:none}
 
-/* ---------- Página ---------- */
 .page-content{max-width:1440px;margin:0 auto;padding:30px 40px 24px}
 .page-view{display:none}
 .page-view.active{display:block}
@@ -133,7 +118,6 @@ small{font-size:12px}
 .head-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 .footer{display:flex;justify-content:space-between;padding:26px 2px 0;color:var(--faint);font-size:12px}
 
-/* ---------- Botões ---------- */
 .primary-button{border:0;border-radius:var(--r);background:var(--cobalt);color:#fff;padding:11px 18px;font-size:14px;font-weight:700;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:background .15s}
 html.dark .primary-button{color:#0E1529}
 .primary-button:hover{background:var(--cobalt-hover)}
@@ -159,7 +143,6 @@ html.dark .mini-button.primary{color:#0E1529}
 .btn-row{display:flex;gap:8px;flex-wrap:wrap}
 .btn-row .ghost-button{flex:1;min-width:130px}
 
-/* ---------- Painéis ---------- */
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);box-shadow:var(--shadow);padding:22px 24px;min-width:0}
 .panel-heading,.tables-toolbar{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
 .panel-heading p,.tables-toolbar p{color:var(--muted);font-size:13px;margin:4px 0 0}
@@ -170,7 +153,6 @@ html.dark .mini-button.primary{color:#0E1529}
 .stack-gap-b{margin-bottom:18px}
 .period-tag{border:1px solid var(--line);border-radius:20px;padding:5px 11px;color:var(--muted);font-size:12px}
 
-/* ---------- Faixa de números (substitui os cartões repetidos) ---------- */
 .table-summary-grid,.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden}
 .stats-grid.stats-2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .summary-card,.stat-card{padding:18px 22px;min-width:0;display:flex;flex-direction:column;gap:2px;position:relative}
@@ -197,7 +179,6 @@ td.positive,td.negative{font-weight:700}
 .crit-dot{background:var(--tomato)}
 .warn-dot{background:var(--mustard)}
 
-/* ---------- Filtros ---------- */
 .filter-group{display:flex;gap:4px;flex-wrap:wrap;background:var(--sunken);padding:4px;border-radius:12px}
 .filter-button{border:0;background:transparent;color:var(--muted);padding:7px 12px;border-radius:9px;font-size:13px;font-weight:700;transition:background .15s,color .15s}
 .filter-button:hover{color:var(--ink)}
@@ -210,7 +191,6 @@ td.positive,td.negative{font-weight:700}
 .period-bar{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px;background:var(--sunken);padding:4px;border-radius:12px;width:fit-content}
 .period-bar .filter-button{padding:8px 14px}
 
-/* ---------- Tabelas ---------- */
 .table-wrap{overflow-x:auto;margin-top:10px}
 table{width:100%;border-collapse:collapse;min-width:540px;text-align:left}
 table.wide{min-width:760px}
@@ -231,7 +211,6 @@ tr.row-off td.actions-cell{opacity:1}
 .rank{font-family:var(--display);font-weight:760;color:var(--mustard-ink);font-size:16px}
 .rank-prod{display:flex;align-items:center;gap:8px}
 
-/* ---------- Etiquetas de status ---------- */
 .status,.type-tag,.mov-tag,.time-tag{display:inline-block;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:700;white-space:nowrap;line-height:1.5}
 .status-received{background:var(--cobalt-50);color:var(--cobalt-ink)}
 .status-preparing{background:var(--mustard-50);color:var(--mustard-ink)}
@@ -254,7 +233,6 @@ tr.row-off td.actions-cell{opacity:1}
 .obs-line{display:block;width:fit-content;margin-top:5px;font-size:12.5px;color:var(--mustard-ink);background:var(--mustard-50);border-radius:var(--r-sm);padding:3px 9px}
 .obs-line.cancel{color:var(--tomato-ink);background:var(--tomato-50)}
 
-/* ---------- Barras ---------- */
 .hbar{height:8px;border-radius:8px;background:var(--sunken);overflow:hidden;min-width:90px}
 .hbar i{display:block;height:100%;border-radius:8px;background:var(--cobalt)}
 .hbar.low i{background:var(--mustard)}
@@ -265,7 +243,6 @@ tr.row-off td.actions-cell{opacity:1}
 .hrow.compact{grid-template-columns:1fr 52px;padding:0}
 .hrow-sub{display:block;text-align:right;color:var(--muted);font-size:12px;margin:-8px 0 2px}
 
-/* gráfico de barras verticais (relatórios e dashboard) */
 .vbars{display:flex;gap:12px;height:230px;margin-top:22px;align-items:stretch}
 .vbar{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:7px}
 .vbar b{font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap}
@@ -278,7 +255,6 @@ tr.row-off td.actions-cell{opacity:1}
 .vbars.dense .vbar b{font-size:10px;writing-mode:vertical-rl;transform:rotate(180deg);height:40px}
 .vbars.dense .vbar small{font-size:10px}
 
-/* ---------- Avisos ---------- */
 .empty-note{text-align:center;color:var(--muted);font-size:14px;padding:26px 0 10px;margin:0}
 .grid-empty{grid-column:1/-1}
 .info-banner{background:var(--basil-50);color:var(--basil-ink);border-radius:var(--r-lg);padding:12px 16px;font-size:14px;margin-bottom:16px}
@@ -293,9 +269,6 @@ tr.row-off td.actions-cell{opacity:1}
 .legend span{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted)}
 kbd{font-family:var(--body);font-size:12.5px;font-weight:700;background:var(--surface-2);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:2px 8px;color:var(--ink);min-width:30px;text-align:center}
 
-/* =====================================================================
-   O mapa do salão — o elemento principal desta identidade
-   ===================================================================== */
 .floor{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:26px 22px;padding:12px 4px 4px;
   background-image:radial-gradient(circle,var(--line) 1px,transparent 1.2px);background-size:22px 22px;background-position:-11px -11px;border-radius:var(--r-lg)}
 .floor.mini{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:18px 14px}
@@ -333,7 +306,6 @@ kbd{font-family:var(--body);font-size:12.5px;font-weight:700;background:var(--su
 @keyframes seat{from{opacity:0;transform:translateY(8px) scale(.97)}}
 @media (prefers-reduced-motion:reduce){.floor.reveal .ft{animation:none}.ft-top{transition:none}}
 
-/* ---------- Dashboard ---------- */
 .dash-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(320px,1fr);gap:18px;margin-bottom:18px}
 .dash-grid.even{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
 .queue{list-style:none;margin:12px 0 0;padding:0}
@@ -367,7 +339,6 @@ kbd{font-family:var(--body);font-size:12.5px;font-weight:700;background:var(--su
 .res-list strong{display:block;font-size:14px}
 .res-list small{color:var(--muted)}
 
-/* ---------- Cardápio como cardápio de verdade ---------- */
 .search-box{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:var(--r);padding:0 13px;height:42px;margin-bottom:18px;max-width:420px;background:var(--surface)}
 .search-box span{color:var(--faint);font-size:17px}
 .search-box input{border:0;outline:0;font-size:14px;flex:1;min-width:0;background:transparent;color:var(--ink)}
@@ -390,7 +361,6 @@ kbd{font-family:var(--body);font-size:12.5px;font-weight:700;background:var(--su
 .menu-item.off .menu-line strong{text-decoration:line-through;text-decoration-thickness:1.5px}
 .menu-item.off .emoji{filter:grayscale(1);opacity:.6}
 
-/* ---------- Cozinha: comandas de papel ---------- */
 .kanban{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
 .kanban>.panel{background:var(--sunken);border:0;box-shadow:none;padding:16px}
 .kanban .panel-heading h2{font-size:20px}
@@ -432,7 +402,6 @@ body.kitchen-mode .ticket-obs{font-size:15px}
 body.kitchen-mode .ticket .primary-button{padding:16px;font-size:16px}
 body.kitchen-mode .kanban .panel-heading h2{font-size:24px}
 
-/* ---------- Relatórios e financeiro ---------- */
 .date-range{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--ink-2);font-weight:700}
 .date-range label{display:flex;align-items:center;gap:7px}
 .date-range input{font-size:14px;height:38px;border:1px solid var(--line);border-radius:var(--r-sm);padding:0 10px;background:var(--surface);color:var(--ink)}
@@ -440,7 +409,6 @@ body.kitchen-mode .kanban .panel-heading h2{font-size:24px}
 .chart-summary{display:flex;align-items:baseline;gap:10px;margin-top:16px}
 .chart-summary strong{font-family:var(--display);font-size:26px;font-stretch:85%}
 
-/* ---------- Modais e formulários ---------- */
 .modal-overlay{position:fixed;inset:0;background:rgba(14,21,41,.5);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:40;animation:fade .15s ease-out}
 @keyframes fade{from{opacity:0}}
 .modal{background:var(--surface);border-radius:var(--r-xl);width:100%;max-width:500px;max-height:calc(100vh - 40px);display:flex;flex-direction:column;box-shadow:var(--shadow-pop);animation:rise .2s cubic-bezier(.2,.8,.2,1)}
@@ -545,7 +513,6 @@ body.kitchen-mode .kanban .panel-heading h2{font-size:24px}
 .bill-extra{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .bill-extra .ghost-button{padding:8px 13px;font-size:13px}
 
-/* ---------- Menus flutuantes, notificações, guia ---------- */
 .pop{position:fixed;z-index:35;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-pop);padding:6px}
 .user-pop{width:224px}
 .user-pop button{display:block;width:100%;text-align:left;border:0;background:none;padding:10px 12px;border-radius:9px;font-size:14px;font-weight:700;color:var(--ink)}
@@ -563,7 +530,6 @@ body.kitchen-mode .kanban .panel-heading h2{font-size:24px}
 .guide p{margin:8px 0 2px;font-size:14px;line-height:1.6;color:var(--ink-2)}
 .shortcuts>div{align-items:center}
 
-/* ---------- Login ---------- */
 .login-screen{position:fixed;inset:0;z-index:60;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
 .login-brand .brand{padding:0 0 22px;color:var(--ink)}
 .login-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:30px;width:100%;max-width:380px;display:grid;gap:15px;box-shadow:var(--shadow)}
@@ -571,13 +537,11 @@ body.kitchen-mode .kanban .panel-heading h2{font-size:24px}
 .login-card .form-error{margin:0}
 .login-card .primary-button{padding:13px}
 
-/* ---------- Toast e botão flutuante ---------- */
 .toast{position:fixed;bottom:22px;right:22px;max-width:min(440px,calc(100vw - 44px));padding:13px 18px;background:var(--night);color:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-pop);font-size:14px;opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .2s,transform .2s;z-index:70;border-left:4px solid var(--mustard)}
 html.dark .toast{background:#E8ECF6;color:#0E1529}
 .toast.show{opacity:1;transform:translateY(0)}
 .fab{display:none;position:fixed;right:18px;bottom:18px;width:58px;height:58px;border-radius:18px;border:0;background:var(--mustard);color:#2A1D02;font-size:28px;box-shadow:0 12px 26px -10px rgba(20,35,79,.6);z-index:30}
 
-/* ---------- Impressão (comanda / conta, 80 mm) ---------- */
 #printArea{display:none}
 @media print{
   @page{size:80mm auto;margin:4mm}
@@ -596,7 +560,6 @@ html.dark .toast{background:#E8ECF6;color:#0E1529}
 .r-line{display:flex;justify-content:space-between;gap:8px}
 .r-total{font-weight:700;font-size:14px;margin-top:3px}
 
-/* ---------- Menu lateral em telas baixas ---------- */
 @media(max-height:860px){
   .sidebar{padding-top:16px}
   .brand{padding-bottom:16px}
@@ -611,7 +574,6 @@ html.dark .toast{background:#E8ECF6;color:#0E1529}
   .sidebar-label{padding-bottom:3px}
 }
 
-/* ---------- Responsivo ---------- */
 @media(max-width:1200px){
   :root{--sidebar-width:228px}
   .page-content{padding-left:28px;padding-right:28px}
@@ -672,7 +634,6 @@ html.dark .toast{background:#E8ECF6;color:#0E1529}
 }
 .dash-grid.even:has(>:only-child){grid-template-columns:1fr}
 
-/* ajustes da primeira revisão */
 .dash-grid table{min-width:0}
 .floor.mini{grid-template-columns:repeat(auto-fill,minmax(122px,1fr))}
 .floor.mini .ft-num small{display:none}
@@ -686,11 +647,6 @@ html.dark .toast{background:#E8ECF6;color:#0E1529}
 .origin .type-tag+*{margin-top:3px}
 @media(max-width:620px){.dash-grid table{min-width:460px}}
 
-/* =====================================================================
-   Celular e tablet
-   Até 900 px: barra de navegação inferior no lugar do menu lateral.
-   Até 620 px: tabelas viram cartões, janelas sobem de baixo, filtros deslizam.
-   ===================================================================== */
 .nav-icon svg{width:19px;height:19px;display:block;margin:0 auto}
 .nav-icon{display:grid;place-items:center}
 .bottom-nav,.mobile-brand,.kitchen-tabs{display:none}
@@ -732,7 +688,6 @@ html.dark .toast{background:#E8ECF6;color:#0E1529}
   body.kitchen-mode .bottom-nav{display:none}
   body.kitchen-mode .main-content{padding-bottom:0}
 
-  /* cozinha: uma coluna por vez */
   .kitchen-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--sunken);border-radius:14px;padding:4px;margin-bottom:12px;position:sticky;top:64px;z-index:5}
   .kitchen-tabs button{border:0;background:transparent;border-radius:11px;padding:10px 4px;font-size:14px;font-weight:700;color:var(--muted);min-height:44px}
   .kitchen-tabs button.active{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(27,36,64,.15)}
@@ -756,7 +711,6 @@ html.dark .toast{background:#E8ECF6;color:#0E1529}
   .head-actions{display:grid;grid-template-columns:1fr 1fr;width:100%}
   .head-actions button:only-child,.head-actions button:first-child:nth-last-child(odd){grid-column:1/-1}
   .primary-button,.ghost-button{min-height:46px}
-  /* o botão flutuante já cria pedidos: some do cabeçalho para não repetir */
   #page-dashboard .head-actions,#page-pedidos .head-actions{display:none}
   .panel{padding:16px 14px;border-radius:18px}
   .panel-heading h2,.tables-toolbar h2{font-size:18px}
@@ -767,7 +721,6 @@ html.dark .toast{background:#E8ECF6;color:#0E1529}
   .summary-card strong,.stat-value{font-size:24px}
   .stat-foot{font-size:12px}
 
-  /* filtros deslizam para o lado em vez de quebrar linha */
   .tables-toolbar{flex-direction:column;align-items:stretch;gap:12px;margin-bottom:12px}
   .filter-group,.period-bar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;width:100%;max-width:100%}
   .filter-group::-webkit-scrollbar,.period-bar::-webkit-scrollbar,.cat-jump::-webkit-scrollbar{display:none}
@@ -776,7 +729,6 @@ html.dark .toast{background:#E8ECF6;color:#0E1529}
   .sub-filters .filter-group{width:100%}
   .search-box{max-width:none;height:46px}
 
-  /* tabelas viram cartões */
   .table-wrap{overflow:visible;margin-top:4px}
   table,table.wide,.dash-grid table{min-width:0}
   thead{display:none}
@@ -800,23 +752,19 @@ html.dark .toast{background:#E8ECF6;color:#0E1529}
   td.bar-cell{width:auto}
   .hrow.compact{grid-template-columns:1fr 52px}
 
-  /* mapa do salão no celular */
   .floor,.floor.mini{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px;padding:8px 0 0}
   .floor.mini .ft-top{min-height:76px}
   .floor-legend{gap:8px 14px}
   .floor-legend span:last-child{flex-basis:100%}
 
-  /* cardápio */
   .menu-section h3{font-size:20px}
   .menu-item{padding:13px 0 11px}
   .menu-meta .card-actions{gap:16px}
   .menu-meta .text-button{padding:6px 0;font-size:14px}
 
-  /* cozinha */
   .ticket{margin-top:12px}
   .ticket .primary-button{min-height:50px;font-size:15px}
 
-  /* janelas sobem de baixo, como nos apps */
   .modal-overlay{padding:0;align-items:flex-end}
   .modal{height:auto;max-height:94dvh;border-radius:22px 22px 0 0;animation:sheetUp .25s cubic-bezier(.2,.8,.2,1)}
   .modal::before{content:"";display:block;width:42px;height:5px;border-radius:5px;background:var(--line);margin:9px auto 0;flex:none}
@@ -831,7 +779,6 @@ html.dark .toast{background:#E8ECF6;color:#0E1529}
   .form-error{margin:0 18px 12px}
   .check{min-height:36px}
 
-  /* menus flutuantes viram painéis de largura total */
   .pop.bell-pop{left:12px!important;right:12px!important;width:auto;max-width:none}
   .date-range{flex-direction:column;align-items:stretch}
   .date-range label{justify-content:space-between}
@@ -847,13 +794,11 @@ html.dark .toast{background:#E8ECF6;color:#0E1529}
 }
 @media (prefers-reduced-motion:reduce){.modal{animation:none}}
 @media(max-width:620px){
-  /* status no canto do cartão, na mesma linha do número */
   tbody tr:has(td[data-label="Status"]) td:first-child{grid-column:1}
   tbody td[data-label="Status"]{grid-column:2;grid-row:1;justify-self:end;align-self:center;text-align:right}
   tbody td[data-label="Status"]::before{display:none}
 }
 body[data-page="cozinha"] .fab{display:none!important}
-/* botão de novo pedido só onde faz sentido */
 @media(max-width:900px){
   body:not([data-page="dashboard"]):not([data-page="mesas"]):not([data-page="pedidos"]) .fab{display:none!important}
 }
