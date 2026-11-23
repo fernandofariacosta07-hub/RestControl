@@ -1,6 +1,3 @@
-/* RestControl — Cozinha: quadro de preparo com tempo de espera, alerta de atraso, aviso sonoro,
-   impressão de comanda e modo tela cheia (para tablet ou monitor na parede) */
-
 function ticket(o) {
   const atraso = atrasoPedido(o), novo = Date.now() - o.criadoEm < 60000;
   const tempo = o.status === "ready" ? `pronto ${since(o.prontoEm)}` : `${since(o.criadoEm)}`;
@@ -18,7 +15,7 @@ definePage("cozinha", {
   title: "Cozinha", eyebrow: "OPERAÇÃO DA COZINHA", subtitle: "Visualize os pedidos e acompanhe o preparo.",
   render() {
     const col = s => {
-      const l = DB.pedidos.filter(o => o.status === s).sort((a, b) => a.criadoEm - b.criadoEm); // mais antigos primeiro
+      const l = DB.pedidos.filter(o => o.status === s).sort((a, b) => a.criadoEm - b.criadoEm); 
       return `<section class="panel col-${s}"><div class="panel-heading"><div><h2>${STATUS_PEDIDO[s]}</h2><p>${plural(l.length, "pedido", "pedidos")}</p></div><span class="status status-${s}">${l.length}</span></div>
         ${l.map(ticket).join("") || '<p class="empty-note">Nenhum pedido aqui.</p>'}</section>`;
     };
@@ -27,7 +24,6 @@ definePage("cozinha", {
         {label: DB.som ? "Som ligado" : "Som desligado", action: "som", icon: DB.som ? "🔔" : "🔕", ghost: true, attrs: ` aria-pressed="${DB.som}"`},
         {label: cheia ? "Sair da tela cheia" : "Tela cheia", action: "tela-cheia", icon: cheia ? "✕" : "⛶", ghost: !cheia}])
       + `<div class="kitchen-bar"><strong class="clock">${hhmm(Date.now())}</strong><span><i class="legend-dot warn-dot"></i>Atenção a partir de ${COZINHA.atencao} min</span><span><i class="legend-dot crit-dot"></i>Atrasado a partir de ${COZINHA.atraso} min</span>${atrasados ? `<strong class="late-count">${plural(atrasados, "pedido atrasado", "pedidos atrasados")}</strong>` : ""}<small>O tempo é atualizado automaticamente.</small></div>`
-      /* no celular, uma coluna por vez, escolhida nas abas */
       + `<div class="kitchen-tabs" role="tablist">${["received", "preparing", "ready"].map(k => { const n = DB.pedidos.filter(o => o.status === k).length, late = DB.pedidos.some(o => o.status === k && atrasoPedido(o) === "late");
           return `<button role="tab" aria-selected="${UI.cozinha.col === k}" class="${UI.cozinha.col === k ? "active" : ""}" data-action="cozinha-col" data-value="${k}">${STATUS_PEDIDO[k]} <span class="${late ? "late" : ""}">${n}</span></button>`; }).join("")}</div>`
       + `<div class="kanban show-${UI.cozinha.col}">${["received", "preparing", "ready"].map(col).join("")}</div>`;
@@ -44,7 +40,6 @@ action("som", () => {
   renderPage("cozinha");
 });
 
-/* Tela cheia: esconde menu e topo, aumenta as fichas e usa a API de tela cheia do navegador quando disponível. */
 function setKitchenMode(on) {
   const ativo = document.body.classList.contains("kitchen-mode");
   if (on === ativo) return;
