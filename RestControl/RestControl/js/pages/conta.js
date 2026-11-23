@@ -1,12 +1,8 @@
-/* RestControl — recebimento de contas (mesa, balcão e delivery):
-   desconto/cortesia, taxa de serviço, divisão (iguais, valores livres ou por item), forma de pagamento e troco. */
-
 const MODOS_DIVISAO = [["1", "Não dividir"], ["iguais", "Partes iguais"], ["valor", "Valores livres"], ["item", "Por item consumido"]];
 const MOTIVOS_DESCONTO = ["Cliente fidelidade", "Pedido atrasou", "Erro no pedido", "Cortesia da casa", "Funcionário", "Aniversariante"];
 
 function billModal({titulo, subtitulo = "", ids, mesa: n = null, servicoPadrao = true}) {
   const os = ids.map(pedido).filter(o => o && !o.pago && o.status !== "cancelled");
-  // Na mesa, receber com pedido ainda na cozinha pede confirmação; no balcão/delivery é normal pagar antes.
   const sub = somaPedidos(os), pendentes = n ? os.filter(o => o.status !== "finished").length : 0;
   const unidades = [], agrupado = {};
   os.forEach(o => {
@@ -67,7 +63,6 @@ function billModal({titulo, subtitulo = "", ids, mesa: n = null, servicoPadrao =
     if (last >= 0) vals[last] = round2(vals[last] + diff);
     return vals;
   }
-  /* Recria as linhas de partes (quando muda o modo ou o número de partes), preservando o que já foi escolhido. */
   function rebuild() {
     const k = partesQtd();
     for (let i = 0; i < 20; i++) {
@@ -95,7 +90,6 @@ function billModal({titulo, subtitulo = "", ids, mesa: n = null, servicoPadrao =
     }).join("");
     update();
   }
-  /* Atualiza só os números (sem recriar campos, para não perder o foco). */
   function update() {
     const c = conta(), box = $("billSummary");
     if (c.erro) { box.innerHTML = `<p class="warn-note">${c.erro}</p>`; return; }
