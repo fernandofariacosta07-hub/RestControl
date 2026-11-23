@@ -1,5 +1,3 @@
-/* RestControl — Pedidos: mesa, balcão e delivery; editar, observações, cancelar, receber e imprimir comanda */
-
 const origemCell = o => `${esc(origem(o))}${o.tipo === "delivery" ? `<small class="sub-line">${esc(o.cliente.telefone)}</small><small class="sub-line">${esc(o.cliente.endereco)}</small>` : ""}`;
 
 definePage("pedidos", {
@@ -51,8 +49,6 @@ action("cancelar-pedido", d => {
     onOk: e => { const r = OPS.cancelarPedido(o.id, e.m.value.trim()); if (errorOf(r)) return r; toast(`Pedido #${o.id} cancelado${r.estornou ? " e estoque devolvido" : ""}.`); }});
 });
 
-/* Modal de pedido (novo ou edição). Pensado também para o celular do garçom:
-   mesas em botões grandes, busca, atalhos de categoria e toque no produto para somar 1. */
 function orderModal({mesa: pre, editId}) {
   const ed = editId && pedido(editId);
   const mesasOk = DB.mesas.filter(m => m.status === "occupied" || m.status === "available")
