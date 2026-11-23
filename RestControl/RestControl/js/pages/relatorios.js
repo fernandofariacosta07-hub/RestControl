@@ -1,5 +1,3 @@
-/* RestControl — Relatórios: período personalizado, mais vendidos, categorias e exportação CSV */
-
 const PERIODOS = [["hoje", "Hoje"], ["7d", "Últimos 7 dias"], ["30d", "Últimos 30 dias"], ["mes", "Este mês"], ["custom", "Personalizado"]];
 
 function periodoAtual() {
@@ -19,7 +17,6 @@ function dadosPeriodo() {
   const ranking = Object.entries(vendas).map(([pid, v]) => ({p: produto(pid) || {emoji: "🍽️", nome: "Produto removido", categoria: "—"}, ...v})).sort((a, b) => b.q - a.q || b.v - a.v);
   const cats = {};
   ranking.forEach(r => { cats[r.p.categoria] = round2((cats[r.p.categoria] || 0) + r.v); });
-  // Barras do gráfico: por hora (hoje), por dia (até 31 dias) ou por semana
   let barras;
   if (p.ini === p.fim && p.ini === todayKey()) {
     const os = dias[0].pedidosLista, horas = {};
