@@ -1,5 +1,3 @@
-/* RestControl — Financeiro: receitas das contas, despesas, descontos, fundo de troco e fechamento do caixa */
-
 function aReceber() {
   const mesas = DB.mesas.filter(m => m.status === "occupied" && consumoMesa(m.num) > 0), avulsos = pedidosAvulsosAbertos();
   return {mesas, avulsos, valor: round2(mesas.reduce((s, m) => s + consumoMesa(m.num), 0) + somaPedidos(avulsos))};
