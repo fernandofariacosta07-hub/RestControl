@@ -1,6 +1,3 @@
-/* RestControl — perfis, navegação, renderização e componentes de tela reutilizáveis */
-
-/* ===== Perfis e permissões (p = páginas, a = ações, s = informações visíveis) ===== */
 const PERM = {
   Gerente: {p: ["dashboard", "mesas", "reservas", "cardapio", "pedidos", "cozinha", "estoque", "financeiro", "relatorios"], a: "*", s: "*"},
   "Garçom": {p: ["dashboard", "mesas", "reservas", "cardapio", "pedidos"], a: ["pedido", "pedido_cancelar", "mesa_abrir", "mesa_reserva", "mesa_limpa", "mesa_transferir", "entregar"], s: ["valores"]},
@@ -13,7 +10,6 @@ const sees = k => perfil().s === "*" || perfil().s.includes(k);
 const canPage = k => perfil().p.includes(k);
 const canAdvance = status => can(status === "ready" ? "entregar" : "preparo");
 
-/* ===== Estado da interface (filtros e página atual) ===== */
 const UI = {
   pagina: "dashboard",
   mesas: {f: "all"},
@@ -25,7 +21,6 @@ const UI = {
   relatorios: {modo: "7d", ini: "", fim: ""}
 };
 
-/* ===== Registro de páginas e ações ===== */
 const PAGES = {};
 const definePage = (key, def) => { PAGES[key] = def; };
 const ACTIONS = {};
@@ -37,7 +32,6 @@ function renderPage(key) {
   el.innerHTML = PAGES[key].render();
   if (typeof labelTables === "function") labelTables(el);
 }
-/* Chamado após qualquer alteração de dados: atualiza reservas, redesenha a página atual e os contadores. */
 function commit() {
   const avisos = syncReservas();
   renderPage(UI.pagina);
@@ -46,7 +40,6 @@ function commit() {
   avisos.forEach(m => setTimeout(() => toast(m)));
 }
 
-/* Avisa quando um produto sai (ou volta) do cardápio por falta de ingrediente. */
 let pausadosAntes = null;
 function checarPausaAutomatica() {
   const agora = produtosVisiveis().filter(p => p.ativo && faltaParaProduto(p)).map(p => p.id);
@@ -67,7 +60,7 @@ function openPage(key) {
   document.querySelectorAll(".page-view").forEach(v => {
     const ativa = v.id === "page-" + key;
     v.classList.toggle("active", ativa);
-    if (!ativa) v.innerHTML = ""; // só a página aberta fica no DOM; as outras são redesenhadas ao abrir
+    if (!ativa) v.innerHTML = ""; 
   });
   $("breadcrumbCurrent").textContent = PAGES[key].title;
   $("sidebar").classList.remove("open");
@@ -76,7 +69,6 @@ function openPage(key) {
   window.scrollTo(0, 0);
 }
 
-/* Contadores do menu lateral e do sino, calculados a partir dos dados reais. */
 function updateBadges() {
   const set = (id, n, alert) => { const el = $(id); if (!el) return; el.textContent = n; el.hidden = !n; el.classList.toggle("alert-count", !!alert); };
   const ativos = pedidosAtivos(), fila = ativos.filter(o => o.status !== "ready");
@@ -101,7 +93,6 @@ function applyRole() {
   if (!canPage(UI.pagina)) openPage(perfil().p[0]); else commit();
 }
 
-/* ===== Delegação de eventos: elementos com data-action / data-input ===== */
 document.addEventListener("click", e => {
   const el = e.target.closest("[data-action]");
   if (!el || el.closest(".modal-overlay")) return;
@@ -113,11 +104,8 @@ document.addEventListener("input", e => {
   if (el && !el.closest(".modal-overlay") && ACTIONS[el.dataset.input]) ACTIONS[el.dataset.input](el.dataset, el);
 });
 action("page", d => openPage(d.page));
-/* Filtros genéricos: data-action="filter" data-page-key="pedidos" data-field="f" data-value="ready" */
 action("filter", d => { UI[d.pageKey][d.field || "f"] = d.value; renderPage(d.pageKey); });
 
-/* ===== Componentes de tela ===== */
-/* Cabeçalho da página com botões de ação (só aparecem se o perfil tiver permissão). */
 function pageHead(key, buttons = [], title, subtitle) {
   const p = PAGES[key];
   const btns = buttons.filter(b => !b.perm || can(b.perm)).map(b =>
@@ -133,7 +121,6 @@ const chips = (pageKey, list, current, fieldName = "f") => `<div class="filter-g
 const toolbar = (t, p, right = "") => `<div class="tables-toolbar"><div><h2>${t}</h2><p>${p}</p></div>${right}</div>`;
 const panelHead = (t, p, right = "") => `<div class="panel-heading"><div><h2>${t}</h2><p>${p}</p></div>${right}</div>`;
 const hrow = (label, width, value, cls = "") => `<div class="hrow"><span>${label}</span><div class="hbar ${cls}"><i style="width:${Math.max(0, Math.min(100, width))}%"></i></div><b>${value}</b></div>`;
-/* Cabeçalhos em caixa normal ("PEDIDO" → "Pedido"), mais fáceis de ler que em maiúsculas. */
 const sentence = c => (c ? c.charAt(0) + c.slice(1).toLowerCase() : c);
 const thead = cols => `<thead><tr>${cols.map(c => `<th>${sentence(c)}</th>`).join("")}</tr></thead>`;
 const statusTag = s => `<span class="status status-${{received: "received", preparing: "preparing", ready: "ready", finished: "finished", cancelled: "alert"}[s]}">${STATUS_PEDIDO[s]}</span>`;
