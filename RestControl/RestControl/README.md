@@ -93,4 +93,4 @@ Este é um protótipo que roda apenas no navegador. Os dados são de demonstraç
 
 ## Autor
 
-Fernando Faria Costa. Orientadora: Olinda Rizzo.
+Fernando Faria Costa.
