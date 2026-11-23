@@ -1,8 +1,5 @@
-/* RestControl — Cardápio: busca, filtro, ficha técnica, pausar, excluir e pausa automática por falta de estoque */
-
 const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
-/* O cardápio aparece como um cardápio de verdade: seções por categoria e pontilhado até o preço. */
 function menuGrid() {
   const {f, q} = UI.cardapio, busca = norm(q.trim());
   const lista = produtosVisiveis().filter(p => (f === "Todos" || p.categoria === f) && (!busca || norm(p.nome + " " + p.categoria).includes(busca)));
@@ -34,7 +31,6 @@ definePage("cardapio", {
   }
 });
 
-/* A busca atualiza só a grade, para não perder o foco do campo enquanto se digita. */
 action("buscar-produto", (d, el) => { UI.cardapio.q = el.value; $("menuGrid").innerHTML = menuGrid(); });
 action("pausar", d => { const r = OPS.alternarProduto(d.id), p = produto(d.id); toast(`${p.nome} ${r.ativo ? "voltou ao" : "foi pausado no"} cardápio.`); });
 action("novo-produto", () => productModal());
