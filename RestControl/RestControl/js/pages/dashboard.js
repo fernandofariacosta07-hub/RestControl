@@ -1,7 +1,3 @@
-/* RestControl — Dashboard: o quadro do serviço.
-   Ordem pensada para quem está no salão: números do dia, salão agora e cozinha lado a lado,
-   depois vendas, o que mais está saindo, reservas e últimos pedidos. */
-
 const resumoItens = o => o.itens.map(i => `${i.qtd}x ${i.nome}`).join(", ");
 
 function kitchenQueue() {
