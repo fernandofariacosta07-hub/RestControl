@@ -1,5 +1,3 @@
-/* RestControl — Reservas: agenda, criação/edição, chegada do cliente, cancelamento e "não compareceu" automático */
-
 function statusReserva(r) {
   if (r.status !== "agendada") return {txt: STATUS_RESERVA[r.status], cls: {chegou: "ready", cancelada: "finished", noshow: "alert"}[r.status]};
   const m = mesa(r.mesa), now = Date.now();
@@ -55,7 +53,6 @@ function reservaModal({id, mesa: pre} = {}) {
       if (errorOf(x)) return x;
       toast(r ? "Reserva atualizada." : `Reserva agendada: ${e.c.value.trim()}, ${fmtDate(e.d.value)} às ${e.h.value}, Mesa ${e.m.value}.`);
     }});
-  /* Lista só as mesas com lugares suficientes; mantém a escolhida quando possível. */
   const mesas = () => {
     const p = parseInt(f.elements.p.value) || 1, atual = f.elements.m.value || (r ? r.mesa : pre);
     const ok = DB.mesas.filter(m => m.lugares >= p);
