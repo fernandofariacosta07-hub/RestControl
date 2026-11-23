@@ -1,6 +1,3 @@
-/* RestControl — menu do usuário, notificações, guia, modo escuro, atalhos de teclado, login e inicialização */
-
-/* Notificações conforme o perfil: pedidos prontos, atrasos, reservas, estoque e cardápio. */
 function notifications() {
   const n = [], now = Date.now();
   if (can("entregar")) pedidosAtivos().filter(o => o.status === "ready").forEach(o => n.push(["🍽️", `Pedido #${o.id} pronto (${origem(o)}).`, "pedidos"]));
@@ -46,7 +43,6 @@ $("fabPedido").addEventListener("click", () => orderModal({}));
 $("mobileMenu").addEventListener("click", () => $("sidebar").classList.toggle("open"));
 document.querySelectorAll(".nav-link[data-page]").forEach(b => b.addEventListener("click", () => openPage(b.dataset.page)));
 
-/* ===== Modo escuro (preferência guardada neste navegador) ===== */
 function applyTheme(dark) {
   document.documentElement.classList.toggle("dark", dark);
   $("themeButton").textContent = dark ? "☀" : "☾";
@@ -64,7 +60,6 @@ function toggleTheme() {
   applyTheme(salvo ? salvo === "dark" : !!(window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches));
 })();
 
-/* ===== Atalhos de teclado ===== */
 const ATALHOS = [
   ["N", "Novo pedido", () => can("pedido") && orderModal({})],
   ["R", "Nova reserva", () => can("mesa_reserva") && canPage("reservas") && reservaModal()],
@@ -147,12 +142,10 @@ function logout() {
   }});
 }
 
-/* ===== Inicialização ===== */
 const today = new Intl.DateTimeFormat("pt-BR", {weekday: "long", day: "2-digit", month: "long", year: "numeric"}).format(new Date());
 $("todayLabel").textContent = today.charAt(0).toUpperCase() + today.slice(1);
 applyRole();
 
-/* A cada 30 segundos: reservas (bloqueio e expiração), tempos da cozinha/mesas e contadores — sem mexer em modais abertos. */
 setInterval(() => {
   const avisos = syncReservas();
   avisos.forEach(m => toast(m));
