@@ -1,5 +1,3 @@
-/* RestControl — Estoque: entradas, saídas e perdas, mínimo/máximo, novos ingredientes, histórico e sugestão de compras */
-
 definePage("estoque", {
   title: "Estoque", eyebrow: "CONTROLE INTERNO", subtitle: "Acompanhe os ingredientes e suas movimentações. As vendas dão baixa automática pela ficha técnica.",
   render() {
