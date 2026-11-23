@@ -1,5 +1,3 @@
-/* RestControl — impressão de comandas, contas e lista de compras (formato de impressora térmica 80 mm) */
-
 function printDoc(html) {
   const area = $("printArea");
   area.innerHTML = html;
@@ -7,12 +5,11 @@ function printDoc(html) {
   const fim = () => { document.body.classList.remove("printing"); area.innerHTML = ""; window.removeEventListener("afterprint", fim); };
   window.addEventListener("afterprint", fim);
   window.print();
-  setTimeout(fim, 1000); // garantia para navegadores que não disparam "afterprint"
+  setTimeout(fim, 1000); 
 }
 const agoraTexto = () => new Date().toLocaleString("pt-BR", {day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit"});
 const rLine = (a, b, cls = "") => `<div class="r-line ${cls}"><span>${a}</span><span>${b}</span></div>`;
 
-/* Comanda para a cozinha */
 function printComanda(o) {
   printDoc(`<div class="receipt">
     <div class="r-center"><b>RESTCONTROL · COZINHA</b></div><hr>
@@ -25,7 +22,6 @@ function printComanda(o) {
     <hr><div class="r-center r-small">Impresso em ${agoraTexto()}</div></div>`);
 }
 
-/* Pré-conta (antes de pagar) ou comprovante (depois de pagar) */
 function printConta({titulo, pedidos: os, conta, partes, pre = false, motivo = ""}) {
   const agrupado = {};
   os.forEach(o => {
@@ -48,7 +44,6 @@ function printConta({titulo, pedidos: os, conta, partes, pre = false, motivo = "
     <hr><div class="r-center r-small">${pre ? "Não é documento fiscal. Confira antes de pagar." : "Obrigado pela preferência!"}</div></div>`);
 }
 
-/* Lista de compras sugerida */
 function printCompras(lista) {
   printDoc(`<div class="receipt">
     <div class="r-center"><b>RESTCONTROL · LISTA DE COMPRAS</b></div>
