@@ -1,8 +1,3 @@
-/* RestControl — Mesas: abrir, reservar, lançar pedido, pré-conta, fechar conta, transferir e juntar */
-
-/* ===== Mapa do salão =====
-   Cada mesa é desenhada com suas cadeiras; as cadeiras ocupadas ficam preenchidas.
-   Mesas de 2 lugares são redondas (bistrô) e as de 6 ou mais ocupam duas colunas. */
 let salaoAnimado = false;
 const cadeiras = (n, cheias, cls = "") => `<span class="chairs ${cls}">${Array.from({length: n}, (_, i) => `<i class="chair${i < cheias ? " on" : ""}"></i>`).join("")}</span>`;
 
@@ -33,7 +28,6 @@ function floorTable(m, i, mini) {
     <span class="ft-top"><span class="ft-num">${m.num}<small>${rotulo}</small></span><span class="ft-line">${l1}</span><span class="ft-line">${l2}</span>${badge}</span>
     ${cadeiras(baixo, Math.max(0, ocupados - topo), "bottom")}</button>`;
 }
-/* A entrada animada das mesas acontece uma vez só, na primeira vez que o salão aparece. */
 function floorPlan(mesas, {mini = false} = {}) {
   const anima = !salaoAnimado;
   salaoAnimado = true;
@@ -95,7 +89,6 @@ function openTable(n) {
       body: rows([["Status", "Em limpeza"], ["Atualização", since(m.atualizadoEm)], ["Responsável", "Equipe de salão"]]),
       onOk: () => { OPS.liberarMesa(n); toast(`Mesa ${n} liberada e pronta para uso.`); }});
   }
-  // Mesa ocupada
   const os = pedidosDaMesa(n), val = sees("valores");
   const lista = os.length ? `<div class="mini-orders">${os.map(o => `<div><span><b>#${o.id}</b> · ${hhmm(o.criadoEm)}<small>${itemsText(o)}</small></span><span>${statusTag(o.status)}${val ? `<b>${money(totalPedido(o))}</b>` : ""}</span></div>`).join("")}</div>` : '<p class="hint">Nenhum pedido lançado nesta mesa.</p>';
   const botoes = [
@@ -117,7 +110,6 @@ function openTable(n) {
   return f;
 }
 
-/* Fechamento de conta: usa o modal de recebimento (conta.js). */
 function closeBill(n) {
   const os = pedidosDaMesa(n);
   if (!os.length) {
