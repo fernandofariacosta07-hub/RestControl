@@ -1,8 +1,5 @@
-/* RestControl — utilidades gerais (formatação, datas, modais, avisos e som) */
-
 const $ = id => document.getElementById(id);
 
-/* Escapa texto digitado pelo usuário antes de colocá-lo no HTML (evita injeção de código). */
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
 
 const money = v => (Number(v) || 0).toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
@@ -12,7 +9,6 @@ const num = (v, casas = 2) => (Number(v) || 0).toLocaleString("pt-BR", {maximumF
 const pct = v => `${num(v, 1)}%`;
 const plural = (n, um, varios) => `${n} ${n === 1 ? um : varios}`;
 
-/* ---------- Datas e horários ---------- */
 const MIN = 60000;
 const hhmm = t => new Date(t).toLocaleTimeString("pt-BR", {hour: "2-digit", minute: "2-digit"});
 const minutesSince = t => Math.max(0, Math.floor((Date.now() - t) / MIN));
@@ -30,9 +26,6 @@ const todayKey = () => dateKey(Date.now());
 const fmtDate = (k, opt = {day: "2-digit", month: "2-digit"}) => new Date(parseKey(k)).toLocaleDateString("pt-BR", opt);
 const weekdayShort = k => new Date(parseKey(k)).toLocaleDateString("pt-BR", {weekday: "short"}).replace(".", "").replace(/^./, c => c.toUpperCase());
 
-/* ---------- Aviso rápido (toast) ---------- */
-/* Os avisos entram numa fila para que um não apague o outro.
-   Se acumularem, os mais antigos são descartados e os seguintes aparecem mais rápido. */
 const toastQueue = [];
 function toast(msg) {
   toastQueue.push(msg);
@@ -50,20 +43,14 @@ function nextToast() {
   toast.timer = setTimeout(nextToast, toastQueue.length ? 1800 : 2800);
 }
 
-/* ---------- Formulários e modais ---------- */
 const field = (label, input, hint = "") => `<label class="field"><span>${label}</span>${input}${hint}</label>`;
 const options = (list, selected) => list.map(o => {
   const [value, label] = Array.isArray(o) ? o : [o, o];
   return `<option value="${esc(value)}"${String(value) === String(selected) ? " selected" : ""}>${esc(label)}</option>`;
 }).join("");
-/* Converte o retorno das regras de negócio: texto = mensagem de erro. */
 const errorOf = r => (typeof r === "string" ? r : undefined);
 
 let modalSeq = 0;
-/**
- * Abre um modal com formulário.
- * onOk(elements, form) → retorne um texto para exibir como erro; qualquer outro valor fecha o modal.
- */
 function modal({title, sub = "", body, ok = "Salvar", cancel = "Cancelar", onOk = () => {}, wide = false, danger = false, readOnly = false}) {
   const prev = document.activeElement, id = "modalTitle" + (++modalSeq);
   const ov = document.createElement("div");
@@ -86,7 +73,7 @@ function modal({title, sub = "", body, ok = "Salvar", cancel = "Cancelar", onOk 
   ov.addEventListener("click", e => { if (e.target === ov || e.target.closest(".modal-x,[data-close]")) close(); });
   ov.addEventListener("keydown", e => {
     if (e.key === "Escape") { e.stopPropagation(); close(); }
-    if (e.key === "Tab") { /* mantém o foco do teclado dentro do modal */
+    if (e.key === "Tab") { 
       const f = [...form.querySelectorAll("button,input,select,textarea,[tabindex]")].filter(x => !x.disabled && x.offsetParent !== null);
       if (!f.length) return;
       const first = f[0], last = f[f.length - 1];
@@ -103,7 +90,6 @@ function confirmBox({title, text, ok = "Confirmar", danger = true, onOk}) {
   return modal({title, body: `<p class="modal-text">${text}</p>`, ok, danger, onOk});
 }
 
-/* ---------- Aviso sonoro (sem arquivos externos) ---------- */
 let audioCtx;
 function beep() {
   try {
