@@ -1,16 +1,11 @@
-/* RestControl — estado único do sistema e regras de negócio.
-   Todas as telas leem deste objeto DB e todas as alterações passam pelas funções de OPS,
-   que no final chamam commit() para redesenhar a interface. */
-
-/* ===================== Configurações ===================== */
 const PAGAMENTOS = ["Pix", "Cartão de crédito", "Cartão de débito", "Dinheiro"];
 const FORMAS_DESPESA = [...PAGAMENTOS, "Boleto", "Transferência"];
 const TAXA_SERVICO = 0.10;
 const TAXA_ENTREGA_PADRAO = 7;
 const FUNDO_TROCO_PADRAO = 150;
-const COZINHA = {atencao: 10, atraso: 20};                 // minutos de espera até "atenção" e "atrasado"
-const RESERVA = {antecedencia: 60, tolerancia: 15, intervalo: 120}; // minutos
-const COMPRAS = {diasMinimos: 3, diasAlvo: 7, diasMedia: 14};     // sugestão de compras
+const COZINHA = {atencao: 10, atraso: 20};               
+const RESERVA = {antecedencia: 60, tolerancia: 15, intervalo: 120}; 
+const COMPRAS = {diasMinimos: 3, diasAlvo: 7, diasMedia: 14};   
 const UNIDADES = ["un", "kg", "g", "L", "ml", "cx"];
 
 const STATUS_PEDIDO = {received: "Recebido", preparing: "Em preparo", ready: "Pronto", finished: "Entregue", cancelled: "Cancelado"};
@@ -24,16 +19,15 @@ const TIPO_ESTOQUE = {entrada: "Entrada", saida: "Saída", perda: "Perda", venda
 const DB = {
   usuario: {nome: "Administrador", cargo: "Gerente"},
   ingredientes: [], produtos: [], mesas: [], pedidos: [], reservas: [],
-  movimentos: [],   // financeiro: vendas (+), despesas (−) e cortesias (0)
-  estoqueMov: [],   // histórico de entradas, saídas, perdas e baixas por venda
-  historico: [],    // vendas consolidadas dos dias anteriores (para relatórios)
+  movimentos: [],   
+  estoqueMov: [],   
+  historico: [],    
   caixa: {fechado: false, fundo: FUNDO_TROCO_PADRAO},
   seq: {pedido: 42, id: 1},
   som: true
 };
 const uid = p => `${p}${DB.seq.id++}`;
 
-/* ===================== Consultas ===================== */
 const ingrediente = id => DB.ingredientes.find(i => i.id === id);
 const produto = id => DB.produtos.find(p => p.id === id);
 const produtosVisiveis = () => DB.produtos.filter(p => !p.excluido);
@@ -48,7 +42,6 @@ const consumoMesa = n => somaPedidos(pedidosDaMesa(n));
 const pedidosAvulsosAbertos = () => DB.pedidos.filter(o => o.tipo !== "mesa" && !o.pago && o.status !== "cancelled");
 const pedidosAtivos = () => DB.pedidos.filter(o => ["received", "preparing", "ready"].includes(o.status));
 const nivelEstoque = i => (i.qtd <= i.min / 2 ? "crit" : i.qtd < i.min ? "low" : "ok");
-/* Texto de origem do pedido: "Mesa 03", "João, balcão", "Ana, delivery" (escape ao exibir!) */
 const origem = o => (o.tipo === "mesa" ? `Mesa ${o.mesa}` : `${o.cliente.nome}, ${TIPO_PEDIDO[o.tipo].toLowerCase()}`);
 function botaoStatus(o) {
   if (o.status === "ready") return {mesa: "Entregar na mesa", balcao: "Entregar ao cliente", delivery: "Saiu para entrega"}[o.tipo];
@@ -61,7 +54,6 @@ function atrasoPedido(o) {
 }
 const movimentosDeHoje = () => DB.movimentos.filter(m => dateKey(m.data) === todayKey());
 
-/* ----- Estoque e ficha técnica ----- */
 function consumoIngredientes(itens) {
   const need = {};
   itens.forEach(it => {
@@ -85,14 +77,12 @@ function moverEstoque(need, sinal, tipo, ref) {
     DB.estoqueMov.unshift({id: uid("e"), data: Date.now(), ing: id, tipo, qtd: round3(sinal * q), ref});
   });
 }
-/* Pausa automática: o ingrediente que falta para fazer 1 unidade do produto (ou null). */
 function faltaParaProduto(p) {
   for (const [id, q] of p.receita) { const i = ingrediente(id); if (i && i.qtd < q - 1e-9) return i; }
   return null;
 }
 const produtoDisponivel = p => p.ativo && !p.excluido && !faltaParaProduto(p);
 
-/* ----- Sugestão de compras: consumo médio pela ficha técnica dos últimos dias ----- */
 function consumoMedioDiario(dias = COMPRAS.diasMedia) {
   const hk = todayKey(), uso = {};
   for (let d = 1; d <= dias; d++) {
@@ -115,7 +105,6 @@ function sugestaoCompras() {
   }).filter(Boolean).sort((a, b) => a.dura - b.dura);
 }
 
-/* ----- Contas: desconto, cortesia e taxa de serviço ----- */
 function calcConta(sub, servico, desconto = {tipo: "none"}) {
   const v = Number(desconto.valor) || 0;
   if (v < 0) return {erro: "O desconto não pode ser negativo."};
@@ -128,7 +117,6 @@ function calcConta(sub, servico, desconto = {tipo: "none"}) {
   return {sub, desc, base, taxa, total: round2(base + taxa)};
 }
 
-/* ----- Resumo de vendas: hoje vem dos pedidos reais; dias anteriores, do histórico ----- */
 function resumoDia(key) {
   if (key === todayKey()) {
     const os = DB.pedidos.filter(o => o.status !== "cancelled" && dateKey(o.criadoEm) === key), vendas = {};
@@ -159,7 +147,6 @@ function resumoCaixa() {
   return {porForma, receita, despesas, resultado: round2(receita - despesas), servico, descontos, fundo, dinheiroMov, dinheiro: round2(fundo + dinheiroMov)};
 }
 
-/* ----- Reservas: a mesa fica reservada pouco antes do horário e é liberada se o cliente não vier ----- */
 function syncReservas() {
   const now = Date.now(), msgs = [];
   DB.reservas.filter(r => r.status === "agendada").forEach(r => {
@@ -180,9 +167,7 @@ function syncReservas() {
 }
 const reservasAgendadas = () => DB.reservas.filter(r => r.status === "agendada");
 
-/* ===================== Regras de negócio ===================== */
 const OPS = {
-  /* ----- Pedidos ----- */
   criarPedido({tipo = "mesa", mesa: n, pessoas, cliente = {}, taxaEntrega = 0, itens, obs = ""}) {
     let m = null;
     if (tipo === "mesa") {
@@ -230,7 +215,7 @@ const OPS = {
     if (!o || o.status === "cancelled") return "Pedido não encontrado.";
     if (o.pago) return "Este pedido já foi pago e não pode ser cancelado.";
     if (!motivo) return "Informe o motivo do cancelamento.";
-    const estorna = o.status === "received"; // ainda não foi preparado: ingredientes voltam ao estoque
+    const estorna = o.status === "received"; 
     if (estorna) moverEstoque(consumoIngredientes(o.itens), +1, "estorno", id);
     Object.assign(o, {statusAnterior: o.status, status: "cancelled", canceladoEm: Date.now(), motivo});
     commit();
@@ -245,8 +230,6 @@ const OPS = {
     return {status: nx};
   },
 
-  /* ----- Recebimento (mesa ou pedido avulso) -----
-     partes: [{valor, forma, recebido?}] · desconto: {tipo: none|pct|valor|cortesia, valor, motivo} */
   receberConta({ids, mesa: n = null, servico = false, desconto, partes, confirmaPendentes = false}) {
     const os = ids.map(pedido).filter(o => o && !o.pago && o.status !== "cancelled");
     if (!os.length) return "Não há pedidos a receber.";
@@ -285,7 +268,6 @@ const OPS = {
   },
   liberarMesaSemConsumo(n) { Object.assign(mesa(n), {status: "cleaning", pessoas: 0, abertaEm: null, atualizadoEm: Date.now()}); commit(); },
 
-  /* ----- Mesas ----- */
   abrirMesa(n, pessoas) {
     const m = mesa(n);
     if (!(pessoas >= 1 && pessoas <= m.lugares)) return `Informe de 1 a ${m.lugares} pessoas.`;
@@ -319,7 +301,6 @@ const OPS = {
     return {num: n};
   },
 
-  /* ----- Reservas ----- */
   salvarReserva(dados, id) {
     const cliente = (dados.cliente || "").trim(), m = mesa(dados.mesa);
     if (!cliente) return "Informe o nome do cliente.";
@@ -356,7 +337,6 @@ const OPS = {
     commit();
   },
 
-  /* ----- Cardápio ----- */
   salvarProduto(dados, id) {
     const nome = dados.nome.trim(), categoria = dados.categoria.trim();
     if (!nome || !categoria) return "Informe o nome e a categoria.";
@@ -367,10 +347,8 @@ const OPS = {
     commit();
   },
   alternarProduto(id) { const p = produto(id); p.ativo = !p.ativo; commit(); return {ativo: p.ativo}; },
-  /* A exclusão é "lógica": o produto some do cardápio, mas continua nos relatórios antigos. */
   excluirProduto(id) { const p = produto(id); p.excluido = true; p.ativo = false; commit(); },
 
-  /* ----- Estoque ----- */
   entradaEstoque({ing, qtd, fornecedor, custo, forma}) {
     const i = ingrediente(ing);
     if (!i) return "Selecione o ingrediente.";
@@ -410,7 +388,6 @@ const OPS = {
     commit();
   },
 
-  /* ----- Caixa ----- */
   definirFundo(valor) {
     if (!(valor >= 0)) return "Informe um valor válido para o fundo de troco.";
     if (DB.caixa.fechado) return "Reabra o caixa para alterar o fundo de troco.";
@@ -427,7 +404,6 @@ const OPS = {
   reabrirCaixa() { DB.caixa = {fechado: false, fundo: DB.caixa.fundo}; commit(); }
 };
 
-/* ===================== Dados de demonstração ===================== */
 function seed() {
   const now = Date.now(), ago = m => now - m * MIN;
 
@@ -459,7 +435,6 @@ function seed() {
   ].map(([id, emoji, nome, categoria, preco, ativo, receita]) => ({id, emoji, nome, categoria, preco, ativo, receita, excluido: false}));
   DB.seq.id = 100;
 
-  // [número, lugares, status, pessoas, minutos desde a abertura]
   DB.mesas = [
     ["01", 4, "occupied", 2, 32], ["02", 4, "available"], ["03", 4, "occupied", 4, 28], ["04", 2, "available"],
     ["05", 4, "available"], ["06", 2, "occupied", 2, 46], ["07", 4, "available"], ["08", 6, "occupied", 5, 14],
@@ -475,7 +450,6 @@ function seed() {
     return o;
   };
 
-  // Pedidos já pagos hoje (as mesas já foram liberadas)
   const pagos = [
     [25, "04", 175, [it("p1", 2), it("p11", 2)], "Pix"], [26, "07", 160, [it("p3", 1), it("p10", 2)], "Cartão de crédito"],
     [27, "02", 148, [it("p5", 2), it("p8", 2)], "Dinheiro"], [28, "11", 130, [it("p6", 1), it("p12", 1)], "Cartão de débito"],
@@ -517,7 +491,6 @@ function seed() {
     {id: uid("e"), data: ago(205), ing: "chopp", tipo: "entrada", qtd: 50, ref: "Cervejaria Serra"}
   ];
 
-  // Reservas (horários relativos ao momento em que o sistema é aberto)
   const amanha20h = (() => { const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(20, 0, 0, 0); return d.getTime(); })();
   DB.reservas = [
     {cliente: "Mariana Alves", telefone: "(11) 98765-4321", pessoas: 3, quando: now + 40 * MIN, mesa: "05", obs: "Aniversário de casamento", status: "agendada"},
@@ -529,7 +502,6 @@ function seed() {
   ].map(r => ({id: uid("r"), criadoEm: ago(600), ...r}));
   syncReservas();
 
-  // Histórico de 120 dias gerado de forma determinística (sempre os mesmos números)
   let s = 42;
   const rnd = () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
   const peso = {p1: 9, p2: 6, p3: 7, p4: 5, p5: 5, p6: 4, p7: 3, p8: 4, p9: 3, p10: 8, p11: 9, p12: 6};
